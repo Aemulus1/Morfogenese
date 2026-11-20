@@ -1,8 +1,8 @@
-<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Morfogenese Machine</title><style>:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#10151b;color:#edf2ed;font:15px system-ui,-apple-system,sans-serif}header{padding:14px 18px;border-bottom:1px solid #303b40;display:flex;justify-content:space-between;align-items:center;gap:10px}h1{font-size:20px;margin:0}small{color:#a7b7b0}main{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:12px;padding:12px;max-width:1500px;margin:auto}.stage{position:relative;background:#071017;border:1px solid #344147;border-radius:14px;overflow:hidden;height:700px;min-height:350px}canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:crosshair}.hint{position:absolute;bottom:9px;left:12px;color:#b6c8c4;font-size:12px;pointer-events:none}aside{background:#1b252a;border:1px solid #344147;border-radius:14px;padding:15px;max-height:calc(100dvh - 90px);overflow:auto}button,select{background:#293b3e;color:white;border:1px solid #49605f;border-radius:9px;padding:9px 10px;font:inherit}button{cursor:pointer}button.primary,button.active{background:#357b66;border-color:#a5e5c2;box-shadow:inset 0 0 0 1px #a5e5c2}#modeButtons{grid-template-columns:repeat(3,1fr)}#modeButtons button{padding:10px 3px;font-size:13px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}label{display:block;margin:13px 0 4px;font-size:13px}input[type=range]{width:100%;accent-color:#8ac9a5}select{width:100%}.value{float:right;color:#a6dcbf}p{font-size:12px;color:#b5c6c0;line-height:1.5}.stats{font-size:12px;color:#a9c9ba;padding:8px 0;border-top:1px solid #344147;margin-top:15px}@media(max-width:800px){main{grid-template-columns:1fr}.stage{height:min(62vh,650px)}aside{max-height:none}header{align-items:flex-start}h1{font-size:18px}}</style></head><body><header><div><h1>✳ Morfogenese Machine <small>v2.3</small></h1><small>Een experimenteel atelier voor kunstmatige groei</small></div><small>Offline · iPad · HTML</small></header><main><div class="stage" id="stage"><canvas id="canvas"></canvas><div class="hint">Tik / sleep: voeg voedingspunten toe · Kies 'Zaad planten' om nieuwe organismen te starten</div></div><aside><div class="actions"><button class="primary" id="toggle">⏸ Pauze</button><button id="reset">↻ Nieuw leven</button><button id="png">↓ PNG</button><button id="clear">✕ Wissen</button></div><label>Organisme</label><select id="species"><option value="coral">Koraal / zenuwstelsel</option><option value="tree">Boom / wortels</option><option value="fungus">Mycelium</option><option value="alien">Buitenaards organisme</option></select><label>Interactiemodus</label><div class="actions" id="modeButtons"><button type="button" data-mode="food">✳ Voedsel</button><button type="button" data-mode="seed">🌱 Zaad</button><button type="button" data-mode="erase">⌫ Wissen</button></div><select id="mode"><option value="food">Voedingspunten schilderen</option><option value="seed">Zaad planten</option><option value="erase">Voedingspunten verwijderen</option></select><label>Groeisnelheid <span class="value" id="speedV"></span></label><input id="speed" type="range" min="0.25" max="1" value="0.5" step="0.05"><label>Vertakkingsdrang <span class="value" id="branchV"></span></label><input id="branch" type="range" min="0" max="100" value="30"><label>Zoekafstand <span class="value" id="reachV"></span></label><input id="reach" type="range" min="25" max="130" value="78"><label>Mutatie / grilligheid <span class="value" id="mutationV"></span></label><input id="mutation" type="range" min="0" max="100" value="22"><label>Voedselrijkdom <span class="value" id="foodV"></span></label><input id="food" type="range" min="100" max="1000" value="470" step="10"><label><input type="checkbox" id="cycle" checked> ♻ Bodemkringloop actief</label><label>Afbraaksnelheid <span class="value" id="decayV"></span></label><input id="decay" type="range" min="1" max="10" value="4"><div class="stats" id="soilStats">Bodemkringloop laden…</div><label>Groeilicht</label><select id="light"><option value="up">Van boven</option><option value="right">Van rechts</option><option value="left">Van links</option><option value="none">Geen richting</option></select><label>Kleurenpalet</label><select id="palette"><option value="emerald">Smaragd / goud</option><option value="ice">IJs / cyaan</option><option value="ember">Koraal / vuur</option><option value="violet">Paars / roze</option></select><label><input type="checkbox" id="showFood" checked> Voedingspunten tonen</label><label><input type="checkbox" id="glow" checked> Lichtgevende groei</label><div class="stats" id="perf">Prestaties laden…</div><div class="stats" id="stats">Organisme groeit…</div><p>De bodemkringloop is een vereenvoudigd model: organisch materiaal wordt afgebroken door micro-organismen en regenwormen helpen bij de omzetting en verspreiding. Dit is geen biologisch exacte nabootsing. De vormen ontstaan uit lokale aantrekkingskracht, vertakking en willekeur. Alles wordt op dit toestel berekend.</p></aside></main><script>
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Morfogenese Machine</title><style>:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#10151b;color:#edf2ed;font:15px system-ui,-apple-system,sans-serif}header{padding:14px 18px;border-bottom:1px solid #303b40;display:flex;justify-content:space-between;align-items:center;gap:10px}h1{font-size:20px;margin:0}small{color:#a7b7b0}main{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:12px;padding:12px;max-width:1500px;margin:auto}.stage{position:relative;background:#071017;border:1px solid #344147;border-radius:14px;overflow:hidden;height:700px;min-height:350px}canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:crosshair}.hint{position:absolute;bottom:9px;left:12px;color:#b6c8c4;font-size:12px;pointer-events:none}aside{background:#1b252a;border:1px solid #344147;border-radius:14px;padding:15px;max-height:calc(100dvh - 90px);overflow:auto}button,select{background:#293b3e;color:white;border:1px solid #49605f;border-radius:9px;padding:9px 10px;font:inherit}button{cursor:pointer}button.primary,button.active{background:#357b66;border-color:#a5e5c2;box-shadow:inset 0 0 0 1px #a5e5c2}#modeButtons{grid-template-columns:repeat(3,1fr)}#modeButtons button{padding:10px 3px;font-size:13px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}label{display:block;margin:13px 0 4px;font-size:13px}input[type=range]{width:100%;accent-color:#8ac9a5}select{width:100%}.value{float:right;color:#a6dcbf}p{font-size:12px;color:#b5c6c0;line-height:1.5}.stats{font-size:12px;color:#a9c9ba;padding:8px 0;border-top:1px solid #344147;margin-top:15px}@media(max-width:800px){main{grid-template-columns:1fr}.stage{height:min(62vh,650px)}aside{max-height:none}header{align-items:flex-start}h1{font-size:18px}}</style></head><body><header><div><h1>✳ Morfogenese Machine <small>v2.4</small></h1><small>Een experimenteel atelier voor kunstmatige groei</small></div><small>Offline · iPad · HTML</small></header><main><div class="stage" id="stage"><canvas id="canvas"></canvas><div class="hint">Tik / sleep: voeg voedingspunten toe · Kies 'Zaad planten' om nieuwe organismen te starten</div></div><aside><div class="actions"><button class="primary" id="toggle">⏸ Pauze</button><button id="reset">↻ Nieuw leven</button><button id="png">↓ PNG</button><button id="clear">✕ Wissen</button></div><label>Organisme</label><select id="species"><option value="coral">Koraal / zenuwstelsel</option><option value="tree">Boom / wortels</option><option value="fungus">Mycelium</option><option value="alien">Buitenaards organisme</option></select><label>Interactiemodus</label><div class="actions" id="modeButtons"><button type="button" data-mode="food">✳ Voedsel</button><button type="button" data-mode="seed">🌱 Zaad</button><button type="button" data-mode="erase">⌫ Wissen</button></div><select id="mode"><option value="food">Voedingspunten schilderen</option><option value="seed">Zaad planten</option><option value="erase">Voedingspunten verwijderen</option></select><label>Groeisnelheid <span class="value" id="speedV"></span></label><input id="speed" type="range" min="0.25" max="1" value="0.5" step="0.05"><label>Vertakkingsdrang <span class="value" id="branchV"></span></label><input id="branch" type="range" min="0" max="100" value="30"><label>Zoekafstand <span class="value" id="reachV"></span></label><input id="reach" type="range" min="25" max="130" value="78"><label>Mutatie / grilligheid <span class="value" id="mutationV"></span></label><input id="mutation" type="range" min="0" max="100" value="22"><label>Voedselrijkdom <span class="value" id="foodV"></span></label><input id="food" type="range" min="100" max="1000" value="470" step="10"><label><input type="checkbox" id="cycle" checked> ♻ Bodemkringloop actief</label><label>Afbraaksnelheid <span class="value" id="decayV"></span></label><input id="decay" type="range" min="1" max="10" value="4"><div class="stats" id="soilStats">Bodemkringloop laden…</div><label>Groeilicht</label><select id="light"><option value="up">Van boven</option><option value="right">Van rechts</option><option value="left">Van links</option><option value="none">Geen richting</option></select><label>Kleurenpalet</label><select id="palette"><option value="emerald">Smaragd / goud</option><option value="ice">IJs / cyaan</option><option value="ember">Koraal / vuur</option><option value="violet">Paars / roze</option></select><label><input type="checkbox" id="showFood" checked> Voedingspunten tonen</label><label><input type="checkbox" id="glow" checked> Lichtgevende groei</label><div class="stats" id="perf">Prestaties laden…</div><div class="stats" id="stats">Organisme groeit…</div><p>De bodemkringloop is een vereenvoudigd model: organisch materiaal wordt afgebroken door micro-organismen en regenwormen helpen bij de omzetting en verspreiding. Dit is geen biologisch exacte nabootsing. De vormen ontstaan uit lokale aantrekkingskracht, vertakking en willekeur. Alles wordt op dit toestel berekend.</p></aside></main><script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id),num=id=>Number($(id).value),stage=$('stage'),c=$('canvas'),ctx=c.getContext('2d');
 const bg='#071017',MAX_NODES=24000,MAX_FOOD=1400,CELL=48;
-let W=0,H=0,dpr=1,food=[],nodes=[],tips=[],running=true,frame=0,reason='Groeit',drag=false,lastPaint=0,dirty=true,layer=document.createElement('canvas'),lc=layer.getContext('2d'),grid=new Map(),gridDirty=true,painted=0,workMs=0,seedCounter=0,seedBirth=new Map(),litter=[],worms=[],mineralPool=0,recycled=0,day=0,shoots=[],shootTips=[],groundY=0;
+let W=0,H=0,dpr=1,food=[],nodes=[],tips=[],running=true,frame=0,reason='Groeit',drag=false,lastPaint=0,dirty=true,layer=document.createElement('canvas'),lc=layer.getContext('2d'),grid=new Map(),gridDirty=true,painted=0,workMs=0,seedCounter=0,seedBirth=new Map(),litter=[],worms=[],mineralPool=0,recycled=0,day=0,shoots=[],shootTips=[],beechPlan=[],beechCursor=0,groundY=0;
 const palettes={emerald:['#4a9e79','#b5e8aa','#f4d98c'],ice:['#277caa','#7ed9ef','#e2faff'],ember:['#a74457','#ff916a','#ffe1a2'],violet:['#764eaa','#db84e9','#ffd4f5']};
 const rnd=(a,b)=>a+Math.random()*(b-a),key=(x,y)=>Math.floor(x/CELL)+','+Math.floor(y/CELL);
 function rebuildGrid(){grid.clear();for(let i=0;i<food.length;i++){const k=key(food[i].x,food[i].y);if(!grid.has(k))grid.set(k,[]);grid.get(k).push(i)}gridDirty=false}
@@ -10,8 +10,8 @@ function nearby(x,y,r){if(gridDirty)rebuildGrid();const result=[];for(let gx=Mat
 function styleSegment(n,p){const pal=palettes[$('palette').value],t=Math.min(1,n.depth/65);lc.strokeStyle=pal[t<.35?0:t<.75?1:2];lc.globalAlpha=.7+.3*t;lc.lineWidth=Math.max(.65,3.3-t*2.6);lc.beginPath();lc.moveTo(p.x,p.y);lc.lineTo(n.x,n.y);lc.stroke()}
 function drawSegment(idx){const n=nodes[idx],p=nodes[n.parent];if(!p)return;styleSegment(n,p);painted++}
 function rebuildLayer(){lc.setTransform(dpr,0,0,dpr,0,0);lc.clearRect(0,0,W,H);lc.lineCap='round';lc.shadowBlur=$('glow').checked?9:0;lc.shadowColor=palettes[$('palette').value][0];painted=0;for(let i=1;i<nodes.length;i++)drawSegment(i);
- if($('species').value==='tree')for(let i=1;i<shoots.length;i++){const n=shoots[i],p=shoots[n.parent];lc.strokeStyle=palettes[$('palette').value][n.depth<18?0:1];lc.lineWidth=n.kind==='trunk'?Math.max(2.3,5.3-(groundY-n.y)*.016):n.kind==='scaffold'?2.2:n.kind==='secondary'?1.4:.85;lc.beginPath();lc.moveTo(p.x,p.y);lc.lineTo(n.x,n.y);lc.stroke()}lc.shadowBlur=0;lc.globalAlpha=1;dirty=true}
-function size(){const w=Math.max(320,Math.round(stage.clientWidth)),h=Math.max(300,Math.round(stage.clientHeight));if(w===W&&h===H)return;const sx=W?w/W:1,sy=H?h/H:1;for(const p of food){p.x*=sx;p.y*=sy}for(const n of nodes){n.x*=sx;n.y*=sy}for(const n of shoots){n.x*=sx;n.y*=sy}groundY*=sy;W=w;H=h;dpr=Math.min(window.devicePixelRatio||1,2);c.width=layer.width=Math.round(W*dpr);c.height=layer.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);rebuildLayer();gridDirty=true}
+ if($('species').value==='tree')for(let i=0;i<beechCursor;i++)drawBeechPart(beechPlan[i]);lc.shadowBlur=0;lc.globalAlpha=1;dirty=true}
+function size(){const w=Math.max(320,Math.round(stage.clientWidth)),h=Math.max(300,Math.round(stage.clientHeight));if(w===W&&h===H)return;const sx=W?w/W:1,sy=H?h/H:1;for(const p of food){p.x*=sx;p.y*=sy}for(const n of nodes){n.x*=sx;n.y*=sy}for(const n of shoots){n.x*=sx;n.y*=sy}for(const n of beechPlan){n.x1*=sx;n.x2*=sx;n.y1*=sy;n.y2*=sy}groundY*=sy;W=w;H=h;dpr=Math.min(window.devicePixelRatio||1,2);c.width=layer.width=Math.round(W*dpr);c.height=layer.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);rebuildLayer();gridDirty=true}
 function addFood(x,y,n=20,r=50,owner=null){let added=0;for(let i=0;i<n&&food.length<MAX_FOOD;i++){const a=Math.random()*Math.PI*2,dist=Math.sqrt(Math.random())*r,px=x+Math.cos(a)*dist,py=y+Math.sin(a)*dist;if(px>10&&py>10&&px<W-10&&py<H-10){food.push({x:px,y:py,owner});added++}}if(added){gridDirty=true;wakeNear(x,y,r+num('reach'));dirty=true}return added}
 function wakeNear(x,y,r){const r2=r*r;let added=0;const active=new Set(tips);for(let i=nodes.length-1;i>=0&&added<50;i--){const n=nodes[i];if(!active.has(i)&&(n.x-x)**2+(n.y-y)**2<r2){tips.push(i);active.add(i);added++}}if(tips.length>180)tips=tips.slice(-180)}
 function initWorms(){worms=Array.from({length:7},()=>({x:rnd(18,W-18),y:rnd($('species').value==='tree'?groundY+18:18,H-18),a:rnd(0,Math.PI*2)}))}
@@ -53,73 +53,80 @@ function soilCycle(){
  }
  dirty=true;
 }
+// Geometry adapted from the 15 curved beech scaffold arms in Bosmieren 3.
+// All geometry is precomputed once; only a small number of segments is painted per step.
+function beechRand(...values){let h=2166136261;for(const v of values){h=Math.imul(h^(Math.floor(v*1000)|0),16777619)}h^=h>>>13;h=Math.imul(h,1274126177);return (h>>>0)/4294967296}
 function plantShoot(){
  if($('species').value!=='tree')return;
- shoots.push({x:W*.5,y:groundY,parent:-1,depth:0,angle:-Math.PI/2,kind:'trunk',level:0});
- shootTips=[0];
-}
-function growShoot(){
- if($('species').value!=='tree'||!shootTips.length||shoots.length>=1650)return;
- const next=[];
- const height=groundY-24, cx=W*.5;
- // One leader and a finite hierarchy of scaffold, secondary and twig tips.
- // The branches retain their own heading instead of being pulled vertical.
- for(const idx of shootTips.slice(0,55)){
-  const p=shoots[idx], d=p.depth,kind=p.kind,level=p.level||0;
-  if(d>100)continue;
-  const h=groundY-p.y;
-  let angle=p.angle;
-  if(kind==='trunk'){
-   angle=-Math.PI/2+rnd(-.028,.028);
-  }else{
-   const outward=p.x>=cx?1:-1;
-   const desired=kind==='scaffold'?(outward>0?-.38:-Math.PI+.38):
-                 kind==='secondary'?(outward>0?-.66:-Math.PI+.66):p.angle;
-   angle=p.angle*.91+desired*.09+rnd(-.045,.045)*(1+num('mutation')/180);
+ beechPlan=[];beechCursor=0;
+ const cx=W*.5, h=Math.min(groundY-35,W*.64),trunkH=h*.94,crownR=h*.42;
+ const center=t=>cx+Math.sin(t*Math.PI*1.65)*h*.018*t;
+ const add=(x1,y1,x2,y2,width,stage,leaf=false)=>{
+  beechPlan.push({x1,y1,x2,y2,width,stage,leaf});
+ };
+ const trunk=[];
+ for(let k=0;k<=40;k++){
+  const t=k/40;trunk.push({x:center(t),y:groundY-trunkH*t});
+  if(k)add(trunk[k-1].x,trunk[k-1].y,trunk[k].x,trunk[k].y,Math.max(1.5,6*(1-t*.72)),t*.36);
+ }
+ for(let i=0;i<15;i++){
+  const t=.66+.31*beechRand(i,2001),side=beechRand(i,2002)<.5?-1:1;
+  const startX=center(t),startY=groundY-trunkH*t;
+  const len=crownR*(.25+.61*beechRand(i,2003));
+  const rise=h*(.075+.19*beechRand(i,2004));
+  const bendA=(-.26+.52*beechRand(i,2005))*len;
+  const bendB=(-.22+.44*beechRand(i,2006))*len;
+  const pts=[];
+  for(let k=0;k<=9;k++){
+   const u=k/9;
+   pts.push({x:startX+side*len*u+bendA*Math.sin(Math.PI*u)+bendB*Math.sin(2*Math.PI*u)*.3,
+    y:startY-rise*u+Math.sin(Math.PI*u)*(beechRand(i,k,2007)-.5)*h*.025});
+   if(k)add(pts[k-1].x,pts[k-1].y,pts[k].x,pts[k].y,Math.max(.7,h*.018*Math.pow(1-u,.95)),.39+u*.23+i*.002);
   }
-  const length=kind==='trunk'?5.4:kind==='scaffold'?5.1:kind==='secondary'?4.2:3.2;
-  const nx=p.x+Math.cos(angle)*length,ny=p.y+Math.sin(angle)*length;
-  if(nx<20||nx>W-20||ny<24||ny>=groundY-3)continue;
-  // Crown envelope: branches spread laterally while the leader sets height.
-  if(kind!=='trunk'&&Math.abs(nx-cx)>Math.min(W*.43,48+h*.92))continue;
-  let crowded=false;
-  if(kind!=='trunk')for(let j=Math.max(0,shoots.length-220);j<shoots.length-6;j+=4){
-   const q=shoots[j];if(q.kind==='trunk')continue;
-   if(Math.abs(q.x-nx)<4.5&&Math.abs(q.y-ny)<4.5){crowded=true;break}
+  for(let j=0;j<3;j++){
+   const u=.65+.32*beechRand(i,j,2008),at=pts[Math.round(u*9)];
+   const tx=at.x+side*h*(.027+.074*beechRand(i,j,2009));
+   const ty=at.y-h*(.032+.096*beechRand(i,j,2010));
+   add(at.x,at.y,tx,ty,Math.max(.65,h*.006),.65+j*.03+i*.001);
+   for(let k=0;k<8;k++){
+    const x=tx+(beechRand(i,j,k,2021)-.5)*h*.12;
+    const y=ty-h*.012+(beechRand(i,j,k,2022)-.5)*h*.12;
+    add(x,y,x,y,h*(.024+.019*beechRand(i,j,k,2023)),.78+k*.012+i*.001,true);
+   }
   }
-  if(crowded)continue;
-  const child={x:nx,y:ny,parent:idx,depth:d+1,angle,kind,level};
-  shoots.push(child);const ci=shoots.length-1;
-  next.push(ci);
-  lc.strokeStyle=palettes[$('palette').value][kind==='trunk'?0:1];
-  lc.globalAlpha=.94;
-  lc.lineWidth=kind==='trunk'?Math.max(2.3,5.3-h*.016):
-               kind==='scaffold'?Math.max(1.1,3.4-(d-12)*.035):
-               kind==='secondary'?1.55:.85;
-  lc.beginPath();lc.moveTo(p.x,p.y);lc.lineTo(nx,ny);lc.stroke();
-  // Scaffold branches alternate left and right along the main stem.
-  if(kind==='trunk'&&h>38&&h<height*.78&&d%10===0){
-   const side=(Math.floor(d/10)%2===0)?1:-1;
-   const aa=side===1?-.47:-Math.PI+.47;
-   shoots.push({x:nx,y:ny,parent:ci,depth:d+1,angle:aa,kind:'scaffold',level:1});
-   next.push(shoots.length-1);
-  }
-  if(kind==='scaffold'&&d%12===0&&d>20&&level===1){
-   const aa=angle+(p.x>=cx?-.65:.65);
-   shoots.push({x:nx,y:ny,parent:ci,depth:d+1,angle:aa,kind:'secondary',level:2});
-   next.push(shoots.length-1);
-  }
-  if(kind==='secondary'&&d%11===0&&d>34&&level===2){
-   const aa=angle+rnd(-.65,.65);
-   shoots.push({x:nx,y:ny,parent:ci,depth:d+1,angle:aa,kind:'twig',level:3});
-   next.push(shoots.length-1);
+  for(let j=0;j<32;j++){
+   const u=.70+.30*beechRand(i,j,2011),at=pts[Math.round(u*9)];
+   const x=at.x+(beechRand(i,j,2012)-.5)*h*.20;
+   const y=at.y-h*.025+(beechRand(i,j,2013)-.5)*h*.17;
+   add(x,y,x,y,h*(.027+.025*beechRand(i,j,2014)),.78+j*.005+i*.001,true);
   }
  }
- shootTips=next.slice(0,55);
- lc.globalAlpha=1;dirty=true;
+ beechPlan.sort((a,b)=>a.stage-b.stage);
+}
+function drawBeechPart(n){
+ const pal=palettes[$('palette').value];
+ lc.save();lc.shadowBlur=0;
+ if(n.leaf){
+  // Bosmieren 3 clusters of small, overlapping foliage marks, not a solid blob.
+  const r=n.width*.62;
+  for(let k=0;k<5;k++){
+   const a=k*2.39996+n.x1*.13,rr=r*(.25+.55*beechRand(k,n.x1,n.y1));
+   lc.fillStyle=k%3===0?pal[0]:pal[1];lc.globalAlpha=.35+.2*(k%3);
+   lc.beginPath();lc.ellipse(n.x1+Math.cos(a)*rr,n.y1+Math.sin(a)*rr,Math.max(1.2,r*.38),Math.max(1,r*.27),a,0,Math.PI*2);lc.fill();
+  }
+ }else{
+  lc.strokeStyle=pal[0];lc.globalAlpha=.93;lc.lineWidth=n.width;lc.lineCap='round';
+  lc.beginPath();lc.moveTo(n.x1,n.y1);lc.lineTo(n.x2,n.y2);lc.stroke();
+ }
+ lc.restore();dirty=true;
+}
+function growShoot(){
+ if($('species').value!=='tree'||beechCursor>=beechPlan.length)return;
+ // Constant work per tick, even for a mature tree.
+ for(let i=0;i<5&&beechCursor<beechPlan.length;i++)drawBeechPart(beechPlan[beechCursor++]);
 }
 function seed(x,y){reason='Nieuw zaad geplant';const owner=++seedCounter;seedBirth.set(owner,frame);nodes.push({x,y,parent:-1,depth:0,owner});const idx=nodes.length-1;addFood(x,y,36,Math.min(65,num('reach')*.75),owner);tips.push(idx);tips=[...new Set(tips)];dirty=true}
-function reset(){shoots=[];shootTips=[];groundY=H*.53;reason='Groeit';food=[];nodes=[];tips=[];seedCounter=0;seedBirth.clear();litter=[];mineralPool=0;recycled=0;day=0;initWorms();frame=0;const type=$('species').value,amount=num('food');for(let i=0;i<amount;i++){let x,y;if(type==='tree'){x=rnd(W*.1,W*.9);y=rnd(groundY+12,H-12)}else if(type==='fungus'){x=rnd(W*.08,W*.92);y=rnd(H*.08,H*.92)}else{const a=rnd(0,Math.PI*2),r=Math.sqrt(Math.random());x=W*.5+Math.cos(a)*r*W*.39;y=H*.48+Math.sin(a)*r*H*.4}food.push({x,y})}gridDirty=true;if(type==='tree'){seed(W*.5,groundY+8);plantShoot()}else seed(W*.5,H*.5);running=true;$('toggle').textContent='⏸ Pauze';rebuildLayer();render()}
+function reset(){shoots=[];shootTips=[];beechPlan=[];beechCursor=0;groundY=H*.53;reason='Groeit';food=[];nodes=[];tips=[];seedCounter=0;seedBirth.clear();litter=[];mineralPool=0;recycled=0;day=0;initWorms();frame=0;const type=$('species').value,amount=num('food');for(let i=0;i<amount;i++){let x,y;if(type==='tree'){x=rnd(W*.1,W*.9);y=rnd(groundY+12,H-12)}else if(type==='fungus'){x=rnd(W*.08,W*.92);y=rnd(H*.08,H*.92)}else{const a=rnd(0,Math.PI*2),r=Math.sqrt(Math.random());x=W*.5+Math.cos(a)*r*W*.39;y=H*.48+Math.sin(a)*r*H*.4}food.push({x,y})}gridDirty=true;if(type==='tree'){seed(W*.5,groundY+8);plantShoot()}else seed(W*.5,H*.5);running=true;$('toggle').textContent='⏸ Pauze';rebuildLayer();render()}
 function grow(){
  if(!nodes.length){reason='Geen zaden';return false}
  if(!food.length){if($('species').value==='tree'){frame++;if(frame%2===0)growShoot();if(frame%8===0)soilCycle();dirty=true}reason='Geen voedsel — voeg voedsel toe';return false}
@@ -195,6 +202,6 @@ function setMode(mode){$('mode').value=mode;for(const b of document.querySelecto
 for(const b of document.querySelectorAll('[data-mode]'))b.addEventListener('click',()=>setMode(b.dataset.mode));$('mode').addEventListener('change',()=>setMode($('mode').value));setMode('food');
 function down(e){if(e.cancelable)e.preventDefault();drag=true;lastPaint=Date.now();paint(e)}function move(e){if(!drag||$('mode').value==='seed')return;if(e.cancelable)e.preventDefault();if(Date.now()-lastPaint>35){lastPaint=Date.now();paint(e)}}function up(){drag=false}
 if(window.PointerEvent){c.addEventListener('pointerdown',down,{passive:false});c.addEventListener('pointermove',move,{passive:false});c.addEventListener('pointerup',up);c.addEventListener('pointercancel',up);window.addEventListener('pointerup',up)}else{c.addEventListener('touchstart',e=>{const t=e.changedTouches[0];down({clientX:t.clientX,clientY:t.clientY,preventDefault:()=>e.preventDefault(),cancelable:e.cancelable})},{passive:false});c.addEventListener('touchmove',e=>{const t=e.changedTouches[0];move({clientX:t.clientX,clientY:t.clientY,preventDefault:()=>e.preventDefault(),cancelable:e.cancelable})},{passive:false});c.addEventListener('touchend',up);c.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up)}
-$('toggle').onclick=()=>{running=!running;$('toggle').textContent=running?'⏸ Pauze':'▶ Groei'};$('reset').onclick=reset;$('clear').onclick=()=>{nodes=[];tips=[];shoots=[];shootTips=[];food=[];litter=[];worms=[];mineralPool=0;recycled=0;day=0;seedBirth.clear();seedCounter=0;grid.clear();gridDirty=true;frame=0;running=false;$('toggle').textContent='▶ Groei';rebuildLayer();render()};$('png').onclick=()=>{render();const a=document.createElement('a');a.download='Morfogenese_'+Date.now()+'.png';a.href=c.toDataURL('image/png');a.click()};for(const id of ['speed','branch','reach','mutation','food','decay']){const el=$(id),v=$(id+'V');function show(){v.textContent=el.value+(id==='branch'||id==='mutation'?'%':'')}el.addEventListener('input',show);show()}for(const id of ['cycle'])$(id).addEventListener('change',render);for(const id of ['palette','glow'])$(id).addEventListener('change',()=>{rebuildLayer();render()});$('showFood').addEventListener('change',render);$('species').addEventListener('change',reset);new ResizeObserver(size).observe(stage);size();reset();requestAnimationFrame(tick);
+$('toggle').onclick=()=>{running=!running;$('toggle').textContent=running?'⏸ Pauze':'▶ Groei'};$('reset').onclick=reset;$('clear').onclick=()=>{nodes=[];tips=[];shoots=[];shootTips=[];beechPlan=[];beechCursor=0;food=[];litter=[];worms=[];mineralPool=0;recycled=0;day=0;seedBirth.clear();seedCounter=0;grid.clear();gridDirty=true;frame=0;running=false;$('toggle').textContent='▶ Groei';rebuildLayer();render()};$('png').onclick=()=>{render();const a=document.createElement('a');a.download='Morfogenese_'+Date.now()+'.png';a.href=c.toDataURL('image/png');a.click()};for(const id of ['speed','branch','reach','mutation','food','decay']){const el=$(id),v=$(id+'V');function show(){v.textContent=el.value+(id==='branch'||id==='mutation'?'%':'')}el.addEventListener('input',show);show()}for(const id of ['cycle'])$(id).addEventListener('change',render);for(const id of ['palette','glow'])$(id).addEventListener('change',()=>{rebuildLayer();render()});$('showFood').addEventListener('change',render);$('species').addEventListener('change',reset);new ResizeObserver(size).observe(stage);size();reset();requestAnimationFrame(tick);
 })();
 </script></body></html>
